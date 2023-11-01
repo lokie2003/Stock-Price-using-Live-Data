@@ -8,6 +8,7 @@ model = load_model('StockPrice.h5')  # Replace 'your_model.h5' with the actual p
 
 # Define a function to make predictions
 def make_predictions(input_sequence, num_days):
+    input_sequence = np.array(input_sequence).reshape(-1, 1)
     # Scaling the input sequence
     scaler = MinMaxScaler(feature_range=(0, 1))
     input_sequence = scaler.fit_transform(input_sequence)
