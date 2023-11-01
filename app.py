@@ -5,6 +5,7 @@ from tensorflow.keras.models import load_model
 
 # Load the pre-trained LSTM model
 model = load_model("StockPricefinal.h5")
+scaler = joblib.load('scaler.pkl')
 
 # Define the input fields
 st.write("# Stock Price Prediction App")
