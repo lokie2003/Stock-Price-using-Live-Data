@@ -1,4 +1,5 @@
 import streamlit as st
+import pandas as pd
 import numpy as np
 from tensorflow.keras.models import load_model
 from sklearn.preprocessing import MinMaxScaler
@@ -10,7 +11,7 @@ model = load_model('StockPrice.h5')  # Replace 'your_model.h5' with the actual p
 def make_predictions(input_sequence, num_days):
     # Scaling the input sequence
     scaler = MinMaxScaler(feature_range=(0, 1))
-    input_sequence = scaler.fit_transform(np.array(input_sequence).reshape(-1, 1))
+    input_sequence = scaler.fit_transform(input_sequence)
     
     predictions = []
     for _ in range(num_days):
@@ -36,8 +37,14 @@ st.title('Stock Price Prediction App')
 
 # Sidebar with user input
 st.sidebar.header('User Input')
-input_sequence = st.sidebar.text_area('Enter historical stock prices (comma-separated)', value='1.0, 2.0, 3.0, 4.0, 5.0')
-input_sequence = [float(x.strip()) for x in input_sequence.split(',')]
+st.sidebar.markdown('Enter historical stock data:')
+uploaded_file = st.sidebar.file_uploader("Upload CSV file", type=["csv"])
+input_sequence = []
+
+if uploaded_file is not None:
+    data = pd.read_csv(uploaded_file)
+    input_sequence = data['close'].values
+
 num_days = st.sidebar.slider('Number of Days to Predict', 1, 30, 10)
 
 # Main content
@@ -52,4 +59,3 @@ if st.button('Make Predictions'):
 st.subheader('Predicted Prices')
 if st.button('Plot Predicted Prices'):
     st.line_chart(predictions)
-
