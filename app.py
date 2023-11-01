@@ -1,5 +1,4 @@
 import streamlit as st
-import pandas as pd
 import numpy as np
 from tensorflow.keras.models import load_model
 from sklearn.preprocessing import MinMaxScaler
@@ -37,13 +36,11 @@ st.title('Stock Price Prediction App')
 
 # Sidebar with user input
 st.sidebar.header('User Input')
-st.sidebar.markdown('Enter historical stock data:')
-uploaded_file = st.sidebar.file_uploader("Upload CSV file", type=["csv"])
-input_sequence = []
+st.sidebar.markdown('Enter historical stock prices (comma-separated):')
+input_sequence = st.sidebar.text_input('Historical Prices', '207.48, 201.59, 203.77, 209.95, 208.49')
 
-if uploaded_file is not None:
-    data = pd.read_csv(uploaded_file)
-    input_sequence = data['close'].values
+# Convert user input to a list of floats
+input_sequence = [float(x) for x in input_sequence.split(',')]
 
 num_days = st.sidebar.slider('Number of Days to Predict', 1, 30, 10)
 
