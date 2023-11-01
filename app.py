@@ -5,7 +5,7 @@ from tensorflow.keras.models import load_model
 from sklearn.preprocessing import MinMaxScaler
 
 # Load the trained LSTM model
-model = load_model('your_model.h5')  # Replace 'your_model.h5' with the actual path to your model
+model = load_model('StockPrice.h5')  # Replace 'your_model.h5' with the actual path to your model
 
 # Define a function to make predictions
 def make_predictions(start_date, num_days):
